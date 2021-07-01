@@ -1,18 +1,11 @@
 module PokeApiConsumer
-  TYPES_LIMIT = 5
-  POKE_LIMIT = 100
-
   module_function
 
-  def fetch_pokemon_types
-    fetch_objects!(type: :type, limit: TYPES_LIMIT)
-  end
-
-  def fetch_pokemons
-    fetch_objects!(type: :pokemon, limit: POKE_LIMIT)
-  end
+  AVAILABLE_TYPES = %i[type pokemon].freeze
 
   def fetch_objects!(type:, limit:)
+    raise ArgumentError unless AVAILABLE_TYPES.include?(type)
+
     total_types_count = PokeApi.get(type).count
     pagination_offset = 0
     results = []
