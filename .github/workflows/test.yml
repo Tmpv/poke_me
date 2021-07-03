@@ -2,7 +2,7 @@ name: Main
 
 on:
   push:
-    branches: [ set-up-github-test-acitons ]
+    branches: [ master ]
 
 jobs:
   test:
