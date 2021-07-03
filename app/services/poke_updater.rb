@@ -12,12 +12,12 @@ module PokeUpdater
     klass.upsert_all(normalized, { unique_by: %i[remote_id] })
   end
 
-  def update_pokemon_types_from_remote!
+  def update_kinds_from_remote!
     update_objects!(
       type: :type,
       limit: TYPES_LIMIT,
       attributes_build_method: :build_attributes_for_pokemon_type,
-      klass: PokemonType
+      klass: Kind
     )
   end
 
@@ -28,6 +28,23 @@ module PokeUpdater
       attributes_build_method: :build_attributes_for_pokemon,
       klass: Pokemon
     )
+  end
+
+  def update_all_pokemon_kinds!
+    Pokemon.all.each { |pokemon| update_pokemon_kinds!(pokemon: pokemon) }
+  end
+
+  def update_pokemon_kinds!(pokemon:)
+    remote_pokemon = PokeApi.get(pokemon: pokemon.remote_id)
+    kinds_remote_ids = remote_pokemon
+                       .types
+                       .map { |t| t&.type&.url }
+                       .map(&method(:remote_id_from_url))
+
+    kinds = Kind.where(remote_id: kinds_remote_ids)
+
+    pokemon.kinds = kinds
+    pokemon.save
   end
 
   def build_attributes_for_pokemon_type(element)
