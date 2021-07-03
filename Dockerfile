@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
+# TODO: Use alpine build as it's why more light
 FROM ruby:2.7
-RUN apt-get update -qq && apt-get install -y nodejs
+RUN apt-get update -qq
 WORKDIR /poke_me
 COPY Gemfile /poke_me/Gemfile
 COPY Gemfile.lock /poke_me/Gemfile.lock
