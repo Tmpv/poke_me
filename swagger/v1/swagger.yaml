@@ -1,0 +1,124 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+  description: PokeAPI proxy
+paths:
+  "/api/v1/kinds":
+    get:
+      summary: list kinds
+      responses:
+        '200':
+          description: A JSON array of pokemon kinds
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: 'shadow'
+  "/api/v1/kinds/{id}":
+    parameters:
+    - name: id
+      description: Identifier for kind
+      in: path
+      schema:
+        type: integer
+    get:
+      summary: show kind
+      responses:
+        '200':
+          description: A JSON object of an pokemon type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: name
+                    example: 'shadow'
+  "/api/v1/pokemons":
+    get:
+      summary: list kinds
+      responses:
+        '200':
+          description: A JSON array of pokemons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: 'bulbasaur'
+                    kinds:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'poison'
+
+  "/api/v1/pokemons/{id}":
+    parameters:
+    - name: id
+      description: Identifier for kind
+      in: path
+      schema:
+        type: integer
+    get:
+      summary: show kind
+      responses:
+        '200':
+          description: A JSON object of an pokemon
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: 'bulbasaur'
+                  base_experience:
+                    type: integer
+                    example: 64
+                  height:
+                    type: integer
+                    example: 7
+                  weight:
+                    type: integer
+                    example: 69
+                  kinds:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 4
+                        name:
+                          type: string
+                          example: 'poison'
+
+servers:
+  - url: http://localhost:3000
+  - url: https://tmppv-poke-me.herokuapp.com
