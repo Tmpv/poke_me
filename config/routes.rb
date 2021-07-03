@@ -7,4 +7,6 @@ Rails.application.routes.draw do
       resources :kinds, only: %i[index show]
     end
   end
+
+  root to: 'api/v1/pokemons#index'
 end
